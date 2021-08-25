@@ -3,8 +3,9 @@ import {last, tap} from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { cityName } from './store/weather.actions';
 import { WeatherService } from './weather.service';
-import {AsyncSubject, Subscription} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import { AsyncSubject, Subscription } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: 'app-weather',
@@ -29,7 +30,8 @@ export class WeatherComponent implements OnInit, OnDestroy {
     this.position$.pipe(last()).subscribe(data => {
       this.weatherInfo.coords = data;
     });
-    this.subscription = this.http.get<any>(`http://api.openweathermap.org/geo/1.0/reverse?lat=${this.weatherInfo.coords[0]}&lon=${this.weatherInfo.coords[1]}&limit=1&appid=5c30d4c53e1c367f3d8d30550651d1d1`)
+    this.subscription = this.http.get<any>(`http://api.openweathermap.org/geo/1.0/reverse?lat=${this.weatherInfo.coords[0]}
+    &lon=${this.weatherInfo.coords[1]}&limit=1&appid=${environment.openWeatherAPIKey}`)
       .subscribe(data => {
         this.weatherInfo.city = data[0].name;
         this.onChangeLocation();

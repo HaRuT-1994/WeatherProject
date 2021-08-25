@@ -51,7 +51,5 @@ export class MapComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.mymap?.flyTo(this.coords, 8)
     this.marker?.setLatLng(this.coords);
-
   }
-
 }
