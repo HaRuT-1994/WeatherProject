@@ -30,7 +30,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
     this.position$.pipe(last()).subscribe(data => {
       this.weatherInfo.coords = data;
     });
-    this.subscription = this.http.get<any>(`http://api.openweathermap.org/geo/1.0/reverse?lat=${this.weatherInfo.coords[0]}&lon=${this.weatherInfo.coords[1]}&limit=1&appid=${environment.openWeatherAPIKey}`)
+    this.subscription = this.http.get<any>(`https://api.openweathermap.org/geo/1.0/reverse?lat=${this.weatherInfo.coords[0]}&lon=${this.weatherInfo.coords[1]}&limit=1&appid=${environment.openWeatherAPIKey}`)
       .subscribe(data => {
         this.weatherInfo.city = data[0].name;
         this.onChangeLocation();

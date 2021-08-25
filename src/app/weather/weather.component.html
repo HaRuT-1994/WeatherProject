@@ -2,7 +2,7 @@
   <h1>Weather App</h1>
   <div class="info">
     <input type="text" placeholder="cityName" [(ngModel)]="weatherInfo.city" (keyup.enter)="onChangeLocation()">
-    <div>City: {{ weatherInfo.city }} - {{ weatherInfo.desc }} <i class='fas fa-cloud-sun'></i> | {{weatherInfo.temp}}<sup>0</sup>C</div>
+    <div>City: {{ weatherInfo.city }} - {{ weatherInfo.desc }} | {{weatherInfo.temp}}<sup>0</sup>C</div>
   </div>
 </div>
 <app-map [coords]="weatherInfo.coords"></app-map>
