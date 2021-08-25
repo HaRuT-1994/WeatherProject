@@ -40,11 +40,6 @@ export class WeatherComponent implements OnInit, OnDestroy {
     this.store.dispatch(cityName({city: this.weatherInfo.city}));
     this.weatherService.getInfo().pipe(
       tap( data => {
-        console.log(data);
-        // this.weatherInfo.city = data.name,
-        // this.weatherInfo.desc = data.weather[0].description,
-        // this.weatherInfo.coords = [data.coord.lat, data.coord.lon]
-
         this.weatherInfo = {
           city: data.name, desc: data.weather[0].description, temp: (Math.round(data.main.temp) - 273),
           coords: [data.coord.lat, data.coord.lon]

@@ -1,0 +1,16 @@
+.weather-box {
+  background-color: aquamarine;
+  width: 59vw;
+  border: 1px solid gray;
+  padding: 5px;
+
+  h1{
+    text-align: center;
+  }
+
+  input {
+    display: block;
+    width: 30vw;
+    height: 25px;
+  }
+}
