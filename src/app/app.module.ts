@@ -10,17 +10,21 @@ import { WeatherComponent } from './weather/weather.component';
 import { MapComponent } from './weather/map/map.component';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import {mapReducer, weatherReducer} from './weather/store/weather.reducer';
+import { mapReducer, weatherReducer } from './weather/store/weather.reducer';
+import { WeatherChartComponent } from './weather/weather-chart/weather-chart.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
     AppComponent,
     WeatherComponent,
-    MapComponent
+    MapComponent,
+    WeatherChartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ChartsModule,
     FormsModule,
     HttpClientModule,
     StoreModule.forRoot({ city: weatherReducer, coords: mapReducer }),
