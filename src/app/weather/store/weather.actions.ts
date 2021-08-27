@@ -7,6 +7,6 @@ export const cityName = createAction(
 
 export const coord = createAction(
   '[Map Component] coord',
-  props<{ coords: number[] }>()
+  props<{ coords: [number, number] }>()
 )
 

@@ -1,8 +1,14 @@
 <div class="weather-box">
   <h1>Weather App</h1>
   <div class="info">
-    <input type="text" placeholder="cityName" [(ngModel)]="weatherInfo.city" (keyup.enter)="onChangeLocation()">
+    <label for="city">Please enter name of the city and hit 'enter' to get new info:</label>
+    <input id="city" type="text" placeholder="cityName" [(ngModel)]="weatherInfo.city" (keyup.enter)="onChangeLocation()">
     <div>City: {{ weatherInfo.city }} - {{ weatherInfo.desc }} | {{weatherInfo.temp}}<sup>0</sup>C</div>
   </div>
 </div>
-<app-map [coords]="weatherInfo.coords"></app-map>
+<div class="map-chart">
+  <div>
+    <app-map [coords]="weatherInfo.coords"></app-map></div>
+  <div>
+    <app-weather-chart [coords]="weatherInfo.coords"></app-weather-chart></div>
+</div>

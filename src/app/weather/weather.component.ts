@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit} from '@angular/core';
-import {last, tap} from 'rxjs/operators';
+import {last, delay, tap, skip, switchMap} from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { cityName } from './store/weather.actions';
+import { cityName, coord } from './store/weather.actions';
 import { WeatherService } from './weather.service';
-import { AsyncSubject, Subscription } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import {AsyncSubject, Observable, Subscription} from "rxjs";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 
 @Component({
@@ -14,43 +14,51 @@ import { environment } from "../../environments/environment";
 })
 
 export class WeatherComponent implements OnInit, OnDestroy {
-  weatherInfo = {
+  public weatherInfo = {
     city: '', desc: '', temp: 0,
-    coords: [40.209612799999995, 44.531712]
+    coords: [0, 0]
   };
-  private _position = new AsyncSubject<number[]>();
-  position$ = this._position.asObservable();
-  subscription!: Subscription;
+  private locationSubscription!: Subscription;
 
-  constructor(private store: Store<{ coords: number[] }>, private weatherService: WeatherService, private http: HttpClient) {
-    this.position$ = store.select('coords');
-  }
+  constructor(private store: Store<{ coords: number[] }>, private weatherService: WeatherService, private http: HttpClient) {  }
 
   ngOnInit() {
-    this.position$.pipe(last()).subscribe(data => {
-      this.weatherInfo.coords = data;
-    });
-    this.subscription = this.http.get<any>(`https://api.openweathermap.org/geo/1.0/reverse?lat=${this.weatherInfo.coords[0]}&lon=${this.weatherInfo.coords[1]}&limit=1&appid=${environment.openWeatherAPIKey}`)
-      .subscribe(data => {
-        this.weatherInfo.city = data[0].name;
-        this.onChangeLocation();
-      })
+    this.weatherService.getGeolocation();
+    this.store.select('coords')
+      .pipe(
+        switchMap(
+          (coords): Observable<any> => {
+            const params = new HttpParams()
+            .set('lat', coords[0])
+            .set('lon', coords[1])
+            .set('limit', '1')
+            .set('appid', environment.openWeatherAPIKey);
+
+            return this.http.get<any>(`https://api.openweathermap.org/geo/1.0/reverse`, {params})
+          }
+        )
+      )
+      .subscribe(
+        getCity => {
+          this.weatherInfo.city = getCity[0].name;
+          this.onChangeLocation();
+        }
+      );
   }
 
   onChangeLocation() {
     this.store.dispatch(cityName({city: this.weatherInfo.city}));
-    this.weatherService.getInfo().pipe(
+    this.locationSubscription = this.weatherService.getInfo().pipe(
       tap( data => {
         this.weatherInfo = {
           city: data.name, desc: data.weather[0].description, temp: (Math.round(data.main.temp) - 273),
           coords: [data.coord.lat, data.coord.lon]
-        }
+        };
       })
-    ).subscribe(() => this.weatherInfo);
+    ).subscribe();
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
-    // ge
+    this.locationSubscription.unsubscribe();
   }
 }
