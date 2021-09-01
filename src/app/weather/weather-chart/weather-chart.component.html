@@ -1,4 +1,4 @@
-<div class="chart-wrapper" style="width: 48vw; height: 50vh; margin: 10px">
+<div class="chart-wrapper" style="width: 48vw; height: 45vh; margin: 10px">
   <canvas baseChart
           [datasets]="lineChartData"
           [labels]="lineChartLabels"
@@ -8,4 +8,14 @@
           [chartType]="lineChartType"
           [plugins]="lineChartPlugins">
   </canvas>
+</div>
+<div class="grid-container">
+  <div class="grid-item" *ngFor="let dayInfo of daysInfo">
+    <p>{{dayInfo.dt | date:'E'}}</p>
+    <img src="http://openweathermap.org/img/wn/{{dayInfo.weather[0].icon}}.png" />
+    <p>
+      <span style="color:rgb(92, 76, 5)">{{dayInfo.temp.day | round}}<sup>0</sup></span>
+      <span style="color:rgb(48, 67, 67)"> {{dayInfo.temp.night | round}}<sup>0</sup></span>
+    </p>
+  </div>
 </div>

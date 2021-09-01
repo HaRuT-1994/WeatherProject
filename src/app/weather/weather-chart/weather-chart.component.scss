@@ -1,4 +1,26 @@
-//::ng-deep canvas {
-//  width: 80vw;
-//  height: 50px;
-//}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto;
+  grid-gap: 5px;
+}
+
+.grid-item {
+  background-color: rgb(196, 191, 191);
+  height: 13vh;
+  text-align: center;
+  border-radius: 8px;
+  color: rgb(94, 58, 33);
+  font-size: 13px;
+  height: max-content;
+  block-size: max-content;
+
+  img{
+    width: 40px;
+    height: 40px;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}

@@ -3,12 +3,12 @@
   <div class="info">
     <label for="city">Please enter name of the city and hit 'enter' to get new info:</label>
     <input id="city" type="text" placeholder="cityName" [(ngModel)]="weatherInfo.city" (keyup.enter)="onChangeLocation()">
-    <div>City: {{ weatherInfo.city }} - {{ weatherInfo.desc }} | {{weatherInfo.temp}}<sup>0</sup>C</div>
+    <div>City: {{ weatherInfo.city }} - {{ weatherInfo.desc }} | {{weatherInfo.temp | round}}<sup>0</sup>C</div>
   </div>
 </div>
 <div class="map-chart">
   <div>
-    <app-map [coords]="weatherInfo.coords"></app-map></div>
+    <app-map [coords]="weatherInfo.coords" (maplatlng)="onMaplatlng($event)" ></app-map></div>
   <div>
     <app-weather-chart [coords]="weatherInfo.coords"></app-weather-chart></div>
 </div>

@@ -1,4 +1,4 @@
-import {Input, Component, OnInit, OnChanges} from '@angular/core';
+import {Input, Component, OnInit, OnChanges, Output, EventEmitter} from '@angular/core';
 
 declare const L: any;
 
@@ -11,6 +11,7 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() coords = [0, 0];
   marker: any;
   myMap: any;
+  @Output() maplatlng = new EventEmitter<any>();
 
   constructor() {}
 
@@ -30,6 +31,10 @@ export class MapComponent implements OnInit, OnChanges {
       zoomOffset: -1,
       accessToken: 'your.mapbox.access.token'
     }).addTo(this.myMap);
+
+    L.DomEvent.on(this.myMap, 'click', (ev) => {
+      this.maplatlng.emit(ev.latlng);
+  });
   }
 
   ngOnChanges() {

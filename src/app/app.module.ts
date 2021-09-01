@@ -10,16 +10,21 @@ import { WeatherComponent } from './weather/weather.component';
 import { MapComponent } from './weather/map/map.component';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { mapReducer, weatherReducer } from './weather/store/weather.reducer';
+import { CoordsReducer, weatherReducer } from './weather/store/weather.reducer';
 import { WeatherChartComponent } from './weather/weather-chart/weather-chart.component';
 import { ChartsModule } from 'ng2-charts';
+import { EffectsModule } from '@ngrx/effects';
+import { CreateCoordEffects } from './weather/store/weather.effects';
+
+import {TempRound} from './weather/shared/temp-round.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     WeatherComponent,
     MapComponent,
-    WeatherChartComponent
+    WeatherChartComponent,
+    TempRound
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,8 @@ import { ChartsModule } from 'ng2-charts';
     ChartsModule,
     FormsModule,
     HttpClientModule,
-    StoreModule.forRoot({ city: weatherReducer, coords: mapReducer }),
+    StoreModule.forRoot({ city: weatherReducer, coords: CoordsReducer }),
+    EffectsModule.forRoot([CreateCoordEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
