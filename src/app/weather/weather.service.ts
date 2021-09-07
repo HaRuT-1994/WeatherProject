@@ -3,27 +3,31 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { environment } from "../../environments/environment";
+import { cityAction } from './store/actions/city.actions';
+import { CurrentWeather } from './shared/CurrentWeather.interface'
 import { map, switchMap, delay } from "rxjs/operators";
-import { CoordsModel } from './shared/coords.interface';
-import { cityName } from './store/weather.actions';
+import { WeekWeather } from './shared/WeekWeather.interface';
+import { coordsAction } from './store/actions/coords.actions';
+// import { CoordsModel } from './shared/coords.interface';
+// import { cityName } from './store/actions/coords.actions';
 // import { createCoordsAction } from "./store/weather.actions";
 
 @Injectable({ providedIn: 'root' })
 export class WeatherService {
   city$: Observable<any>;
-  cityName = ''
   coords: number[] = [];
 
   constructor(
-    private store: Store<{city: string, coords: CoordsModel}>,
+    private store: Store<{city: string}>,
     private http: HttpClient) {
     this.getGeolocation();
     setTimeout(()=>{
-      this.reverseGeocoding().subscribe(
+      this.reverseGeocoding(this.coords).subscribe(
         data => {
-          this.cityName = data[0].name;
+          this.store.dispatch(cityAction({request: data[0].name}));
+          this.store.dispatch(coordsAction({request: this.coords}));
         })
-    }, 0)
+    }, 0);
   }
 
   getGeolocation() {
@@ -31,54 +35,42 @@ export class WeatherService {
       navigator.geolocation.getCurrentPosition(
         position => {
           this.coords.push(position.coords.latitude, position.coords.longitude);
+
         })
     } else {
       console.log('Geolocation not available');
     }
   }
 
-  reverseGeocoding() {
+  reverseGeocoding(coord) {
     const params = new HttpParams()
-    .set('lat', this.coords[0])
-    .set('lon', this.coords[1])
+    .set('lat', coord[0])
+    .set('lon', coord[1])
     .set('limit', '1')
     .set('appid', environment.openWeatherAPIKey);
 
     return this.http.get<any>(`https://api.openweathermap.org/geo/1.0/reverse`, {params});
   }
 
-  getInfo(): Observable<any> {
-    return this.store.select('city').pipe(
-      switchMap(
-        (city): Observable<any> => {
-          console.log(222222222)
-          const params = new HttpParams()
-          .set('q', city)
-          .set('units', 'metric')
-          .set('exclude', 'current,daily,minutely,alerts')
-          .set('exclude', 'minutely,alerts')
-          .set('appid', environment.openWeatherAPIKey);
+  getInfoByCity(city): Observable<any>{
+    const params = new HttpParams()
+    .set('q', city)
+    .set('units', 'metric')
+    .set('exclude', 'current,daily,minutely,alerts')
+    .set('appid', environment.openWeatherAPIKey);
 
-          return this.http.get(`https://api.openweathermap.org/data/2.5/weather?`, {params}).pipe(delay(200));
-        }
-      )
-    )
+    return this.http.get<Observable<CurrentWeather>>(`https://api.openweathermap.org/data/2.5/weather?`, {params});
   }
 
-  getAllInfo() {
-    return this.store.select('coords').pipe(
-      switchMap(
-        (coords): Observable<any> => {
-          const params = new HttpParams()
-          .set('lat', coords.coord.lat)
-          .set('lon', coords.coord.lon)
-          .set('units', 'metric')
-          .set('exclude', 'minutely,alerts')
-          .set('appid', environment.openWeatherAPIKey);
+  getAllInfo(coords): Observable<any>{
+    const params = new HttpParams()
+    .set('lat', coords[0])
+    .set('lon', coords[1])
+    .set('units', 'metric')
+    .set('exclude', 'minutely,alerts')
+    .set('appid', environment.openWeatherAPIKey);
 
-          return this.http.get(`https://api.openweathermap.org/data/2.5/onecall?`, {params}).pipe(delay(300));
-        }
-      )
-    )
+    return this.http.get<Observable<WeekWeather>>(`https://api.openweathermap.org/data/2.5/onecall?`, {params});
   }
 }
+

@@ -1,14 +1,23 @@
-<div class="weather-box">
-  <h1>Weather App</h1>
-  <div class="info">
-    <label for="city">Please enter name of the city and hit 'enter' to get new info:</label>
-    <input id="city" type="text" placeholder="cityName" [(ngModel)]="weatherInfo.city" (keyup.enter)="onChangeLocation()">
-    <div>City: {{ weatherInfo.city }} - {{ weatherInfo.desc }} | {{weatherInfo.temp | round}}<sup>0</sup>C</div>
+<div *ngIf="info$ | async as localData">
+  <div class="weather-box">
+    <h1>Weather App</h1>
+    <div class="info">
+      <label for="city">Please enter name of the city and hit 'enter' or click on the map to get new info:</label>
+      <input id="city" type="text" placeholder="cityName" [(ngModel)]="cityName" (keyup.enter)="onChangeLocation()">
+      <div class="info-block">
+        <div>
+        City: {{localData['name']}} | {{localData['main']['temp'] | round}}<sup>0</sup>C, {{localData['weather'][0]['description']}}</div>
+        <div>
+        <img src="http://openweathermap.org/img/wn/{{localData['weather'][0]['icon']}}.png" /></div>
+      </div>
+    </div>
   </div>
-</div>
-<div class="map-chart">
-  <div>
-    <app-map [coords]="weatherInfo.coords" (maplatlng)="onMaplatlng($event)" ></app-map></div>
-  <div>
-    <app-weather-chart [coords]="weatherInfo.coords"></app-weather-chart></div>
+  <div class="map-chart">
+    <div>
+      <app-map [coords]="localData['coord']" (maplatlng)="onMaplatlng($event)" ></app-map>
+    </div>
+    <div>
+      <app-weather-chart [coords]="localData['coord']"></app-weather-chart>
+    </div>
+  </div>
 </div>

@@ -1,8 +1,10 @@
-import { Component, OnChanges, Input, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Component, OnChanges, Input, OnInit} from '@angular/core';
+import { map, filter } from 'rxjs/operators';
 import { ChartDataSets, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
-import { WeatherService } from "../weather.service";
+import { Store, select } from '@ngrx/store';
+import { WeekWeatherState } from '../store/reducers/coords.reducer';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-weather-chart',
   templateUrl: './weather-chart.component.html',
@@ -13,52 +15,45 @@ export class WeatherChartComponent implements OnInit, OnChanges {
   hours: string[] = [];
   daysInfo = [];
   temp: number[] = [];
+  data: any = [];
 
-  constructor( private weatherService: WeatherService ) { }
+  constructor( private store: Store<WeekWeatherState> ) { }
 
-  ngOnInit() {this.getChartInfo();  }
-
-  ngOnChanges(): void {
-
-  }
-
-  getChartInfo() {
-    let myHours = [];
-    let myTemp = [];
-    this.weatherService.getAllInfo()
-    .pipe(
-      map((data) => {
-        this.daysInfo = data.daily;
-        data.hourly.map((data, index) => {
-          if(index < 24) {
-            let unix_timestamp = data.dt;
-            let date = new Date(unix_timestamp * 1000)
-            myHours.push(date.getHours() + ':00');
-            myTemp.push(Math.round(data.temp));
-          }
-        })
+  ngOnInit() {
+    this.store.pipe(select('coords'),
+    filter(data => data !== null),
+    map(data => {
+      this.daysInfo = data.daily;
+      data.hourly.map((data, index) => {
+        if(index < 24) {
+          let unix_timestamp = data.dt;
+          let date = new Date(unix_timestamp * 1000)
+          this.hours.push(date.getHours() + ':00');
+          this.temp.push(Math.round(data.temp));
+        }
       })
-    ).subscribe(()=>{
-      this.hours = myHours;
-      this.temp = myTemp;
-      myHours = [];
-      myTemp = [];
-      console.log(this.hours, this.temp)
-      return this.hours, this.temp;
-    });
 
-    this.lineChartData = [
-      { data: this.temp, label: 'Temperature of the day' }
-    ];
+      this.data = [this.hours, this.temp]
+      this.hours = [];
+      this.temp = [];
+      return this.data;
+    })
+    ).subscribe( () => {
+      this.lineChartData = [
+        { data: this.data[1], label: 'Temperature of the day' }
+        ];
 
-    this.lineChartLabels = this.hours;
+      this.lineChartLabels = this.data[0];
+    })
   }
+
+  ngOnChanges(): void {  }
 
   lineChartData: ChartDataSets[] = [
-    { data: this.temp, label: 'Temperature of the day' },
+    { data: this.data[1], label: 'Temperature of the day' },
   ];
 
-  lineChartLabels: Label[] = this.hours;
+  lineChartLabels: Label[] = this.data[0];
 
   lineChartOptions = {
     responsive: true,

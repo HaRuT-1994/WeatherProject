@@ -1,22 +1,18 @@
 import { createAction, props, Action } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CoordsModel } from '../shared/coords.interface';
-
-export const cityName = createAction(
-  '[Weather Component] cityName',
-  props<{city: string}>()
-  );
+import { WeekWeather } from '../../shared/WeekWeather.interface';
 
 export const coordsAction = createAction(
-  '[Weather Component] coords'
+  '[Weather Component] coords',
+  props<{request: number[]}>()
   );
 
 export const coordsActionSuccess = createAction(
-  '[Weather Component] coords success',
-  props<{response: CoordsModel}>()
+  '[Coords Effect] week weather success',
+  props<{response: WeekWeather}>()
   );
 
 export const coordsActionFailure = createAction(
-  '[Weather Component] coords failure',
+  '[Coords Effect] coords failure',
   props<{errorResponse: HttpErrorResponse}>()
 );

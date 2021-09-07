@@ -1,13 +1,12 @@
-import { Component, OnDestroy, OnInit} from '@angular/core';
-import {last, delay, map, take, switchMap, takeUntil} from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import { cityName, coordsAction } from './store/weather.actions';
+import { Component, OnInit} from '@angular/core';
+import {  tap, filter} from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { coordsAction } from './store/actions/coords.actions';
+import { cityAction } from './store/actions/city.actions';
 import { WeatherService } from './weather.service';
-import {AsyncSubject, Observable, Subscription, Subject } from "rxjs";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { environment } from "../../environments/environment";
-import { CoordsModel } from './shared/coords.interface';
-// import { AppState } from './store/app-state.model';
+import { HttpClient } from "@angular/common/http";
+import { WeatherState } from './store/reducers/city.reducers';
+import { WeekWeatherState } from './store/reducers/coords.reducer';
 
 @Component({
   selector: 'app-weather',
@@ -15,47 +14,33 @@ import { CoordsModel } from './shared/coords.interface';
   styleUrls: ['./weather.component.scss'],
 })
 
-export class WeatherComponent implements OnInit, OnDestroy {
-  public weatherInfo = {
-    city: '', desc: '', temp: 0,
-    coords: [0, 0]
-  };
-  private locationSubscription: Subscription;
+export class WeatherComponent implements OnInit {
+  weather: any;
+  cityName = '';
+  info$: any;
+  coords: number[] = [];
 
-
-  constructor(private store: Store, private weatherService: WeatherService, private http: HttpClient) {  }
+  constructor(private store: Store<WeatherState>, private mystore: Store<WeekWeatherState>, private weatherService: WeatherService, private http: HttpClient) {  }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.weatherInfo.city = this.weatherService.cityName;
-      this.onChangeLocation();
-    }, 1000);
-  }
-
-  onChangeLocation() {
-    this.store.dispatch(cityName({city: this.weatherInfo.city}));
-    this.locationSubscription = this.weatherService.getInfo().pipe(
-      map( data => {
-        return {
-          city: data.name, desc: data.weather[0].description, temp: data.main.temp,
-          coords: [data.coord.lat, data.coord.lon]
-        };
-      })
-    ).subscribe(
-      (data) => {
-        console.log(1111111)
-        this.store.dispatch(coordsAction());
-        this.weatherInfo = data;
-      }
+    this.info$ =
+    this.store.pipe(select('city'),
+    filter(state => state !== null),
+    tap(data => {this.coords = Object.values(data['coord']).reverse()})
     );
   }
 
-  ngOnDestroy() {
-    this.locationSubscription.unsubscribe();
+  onChangeLocation() {
+    this.store.dispatch(cityAction({request: this.cityName}));
+    setTimeout(() => {this.store.dispatch(coordsAction({request: this.coords}));}, 100)
+
   }
 
   onMaplatlng(event) {
-    console.log(this.weatherInfo.coords)
-    this.store.dispatch(coordsAction())
+    event = Object.values(event);
+    this.store.dispatch(coordsAction({request: event}))
+    this.weatherService.reverseGeocoding(event).subscribe(
+      data => this.store.dispatch(cityAction({request: data[0].name}))
+    )
   }
 }
