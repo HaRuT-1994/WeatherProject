@@ -4,13 +4,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { environment } from "../../environments/environment";
 import { cityAction } from './store/actions/city.actions';
-import { CurrentWeather } from './shared/CurrentWeather.interface'
-import { map, switchMap, delay } from "rxjs/operators";
+import { CurrentWeather } from './shared/CurrentWeather.interface';
 import { WeekWeather } from './shared/WeekWeather.interface';
 import { coordsAction } from './store/actions/coords.actions';
-// import { CoordsModel } from './shared/coords.interface';
-// import { cityName } from './store/actions/coords.actions';
-// import { createCoordsAction } from "./store/weather.actions";
 
 @Injectable({ providedIn: 'root' })
 export class WeatherService {
@@ -35,7 +31,6 @@ export class WeatherService {
       navigator.geolocation.getCurrentPosition(
         position => {
           this.coords.push(position.coords.latitude, position.coords.longitude);
-
         })
     } else {
       console.log('Geolocation not available');

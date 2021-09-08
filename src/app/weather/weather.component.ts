@@ -32,7 +32,7 @@ export class WeatherComponent implements OnInit {
 
   onChangeLocation() {
     this.store.dispatch(cityAction({request: this.cityName}));
-    setTimeout(() => {this.store.dispatch(coordsAction({request: this.coords}));}, 100)
+    setTimeout(() => {this.store.dispatch(coordsAction({request: this.coords}));}, 400)
 
   }
 
