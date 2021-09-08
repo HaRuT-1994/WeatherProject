@@ -14,7 +14,7 @@
   </div>
   <div class="map-chart">
     <div>
-      <app-map [coords]="localData['coord']" (maplatlng)="onMaplatlng($event)" ></app-map>
+      <app-map [coords]="localData['coord']" [data]="localData" (maplatlng)="onMaplatlng($event)" ></app-map>
     </div>
     <div>
       <app-weather-chart [coords]="localData['coord']"></app-weather-chart>

@@ -1,7 +1,8 @@
 .grid-container {
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto auto;
   grid-gap: 5px;
+  padding:0 10px;
 }
 
 .grid-item {
@@ -10,10 +11,14 @@
   text-align: center;
   border-radius: 8px;
   color: rgb(94, 58, 33);
-  font-size: 13px;
+  font-size: 14px;
   height: max-content;
   block-size: max-content;
 
+  &:hover {
+    background-color:rgb(123, 118, 118);
+  }
+  
   img{
     width: 40px;
     height: 40px;
