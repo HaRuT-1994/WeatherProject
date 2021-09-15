@@ -37,6 +37,11 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
       () => {
         this.myMap?.flyTo(this.coords, 8);
         this.marker?.setLatLng(this.coords);
+
+        L.popup({offset: [5, -25]})
+        .setLatLng(this.coords)
+        .setContent(this.popupContent)
+        .openOn(this.myMap);
       }
     )
 

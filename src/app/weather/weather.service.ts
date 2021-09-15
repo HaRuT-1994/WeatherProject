@@ -11,7 +11,7 @@ import { coordsAction } from './store/actions/coords.actions';
 @Injectable()
 export class WeatherService {
   city$: Observable<any>;
-  coords: number[] = [];
+  coords: number[] = [40.177200, 44.503490];
 
   constructor(
     private store: Store<{city: string}>,
@@ -30,7 +30,12 @@ export class WeatherService {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         position => {
+          this.coords = [];
           this.coords.push(position.coords.latitude, position.coords.longitude);
+          this.store.dispatch(coordsAction({request: this.coords}));
+        },
+        err => {
+          console.warn(`ERROR(${err.code}): ${err.message}`);
         })
     } else {
       console.log('Geolocation not available');
