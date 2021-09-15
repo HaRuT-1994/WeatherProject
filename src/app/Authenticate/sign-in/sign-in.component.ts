@@ -7,7 +7,7 @@ import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  styleUrls: ['../signin-signup.component.scss']
 })
 export class SignInComponent implements OnInit {
   public signinForm: FormGroup;
@@ -40,8 +40,7 @@ export class SignInComponent implements OnInit {
       const password = this.signinForm.value.password;
       this.isLoading = true;
       this.authService.signIn(email, password)
-      .subscribe(resData => {
-        console.log(resData);
+      .subscribe(() => {
         this.isLoading = false;
         this.router.navigate(['/weather']);
       }, error => {

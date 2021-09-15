@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, NgForm, ValidationErrors, Validators, FormControl, FormGroupDirective } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import {ErrorStateMatcher} from '@angular/material/core';
+import { Router } from '@angular/router';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -13,7 +14,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  styleUrls: ['../signin-signup.component.scss']
 })
 export class SignUpComponent implements OnInit {
   public signupForm: FormGroup;
@@ -24,7 +25,8 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
     ) {
     this.signupForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -61,7 +63,7 @@ export class SignUpComponent implements OnInit {
       this.isLoading = true;
       this.authService.signUp(email, password)
       .subscribe(resData => {
-        console.log(resData);
+        this.router.navigate(['/weather']);
         this.isLoading = false;
       }, errMessage => {
         this.error = errMessage;
