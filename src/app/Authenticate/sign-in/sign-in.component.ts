@@ -53,4 +53,21 @@ export class SignInComponent implements OnInit {
 
     this.signinForm.reset();
   }
+
+  mailErrorMessage() {
+    if (this.signinForm.controls['email'].hasError('required')) {
+      return 'You must enter an email adrress';
+    }
+
+    // this.error = null;
+    return this.signinForm.controls['email'].hasError('email') ? 'Not a valid email' : '';
+  }
+
+  passwordErrorMessage() {
+    if (this.signinForm.controls['password'].hasError('required')) {
+      return 'You must enter a password';
+    }
+
+    return this.signinForm.controls['password'].hasError('minlength') ? 'password length must be greater than 6': '';
+  }
 }
