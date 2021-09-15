@@ -1,4 +1,3 @@
-<!-- <app-weather> -->
 <div *ngIf="info$ | async as localData" class="weather-style">
   <div class="weather-box">
     <h1>Weather App</h1>
@@ -9,7 +8,8 @@
         <div>
         City: {{localData['name']}} | {{localData['main']['temp'] | round}}<sup>0</sup>C, {{localData['weather'][0]['description']}}</div>
         <div>
-        <img src="http://openweathermap.org/img/wn/{{localData['weather'][0]['icon']}}.png" /></div>
+        <img src="http://openweathermap.org/img/wn/{{localData['weather'][0]['icon']}}.png"/></div>
+        Wind:<img src="assets/images/wind-icon.png"/>{{localData['wind']['speed']}}m/s, Humidity:{{localData['main']['humidity']}}%
       </div>
     </div>
   </div>
@@ -22,4 +22,3 @@
     </div>
   </div>
 </div>
-<!-- </app-weather> -->

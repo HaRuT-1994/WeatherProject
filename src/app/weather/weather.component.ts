@@ -10,8 +10,7 @@ import { citySelector } from './store/selectors/city.selector';
 @Component({
   selector: 'app-weather',
   templateUrl: './weather.component.html',
-  styleUrls: ['./weather.component.scss'],
-  // providers: [WeatherService]
+  styleUrls: ['./weather.component.scss']
 })
 
 export class WeatherComponent implements OnInit {
@@ -27,7 +26,9 @@ export class WeatherComponent implements OnInit {
     this.info$ =
     this.store.pipe(select(citySelector),
     filter(state => state !== null),
-    tap(data => {this.coords = Object.values(data['coord']).reverse()})
+    tap(data => {
+      console.log(data);
+      this.coords = Object.values(data['coord']).reverse()})
     );
   }
 
