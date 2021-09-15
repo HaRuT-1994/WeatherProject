@@ -11,6 +11,7 @@ import { citySelector } from './store/selectors/city.selector';
   selector: 'app-weather',
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss'],
+  // providers: [WeatherService]
 })
 
 export class WeatherComponent implements OnInit {

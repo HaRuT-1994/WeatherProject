@@ -1,6 +1,6 @@
 
 import { createAction, props } from '@ngrx/store';
-import { CurrentWeather } from '../../shared/CurrentWeather.interface';
+// import { CurrentWeather } from '../../shared/CurrentWeather.interface';
 
 export const cityAction = createAction(
   '[Weather Component] get city',

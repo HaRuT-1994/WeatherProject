@@ -1,0 +1,28 @@
+<div class="example-form">
+  <div *ngIf="isLoading">
+  <app-loading-spinner></app-loading-spinner>
+  </div>
+  <form [formGroup] = "signupForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+    <h2>Create an account</h2>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Enter your Email*</mat-label>
+      <input type="email" matInput formControlName="email" placeholder="angular@example.com">
+      <mat-error *ngIf="signupForm.controls['email'].invalid">{{mailErrorMessage()}}</mat-error>
+      <div class="resError" *ngIf="error">{{error}} </div>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Password</mat-label>
+      <input type="password" matInput formControlName="password"  placeholder="Example_146">
+      <mat-error *ngIf="signupForm.controls['password'].invalid">{{passwordErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Confirm Password</mat-label>
+      <input type="password" matInput  formControlName="confirmPassword" placeholder="Example_146">
+      <div class="resError" *ngIf="signupForm.controls['confirmPassword'].touched && !signupForm.controls['confirmPassword'].pending">{{confirmPasswordErrorMessage()}}</div>
+    </mat-form-field>
+    <nav class="auth-buttons">
+      <button mat-flat-button color="warn" type="submit">Sign Up</button>
+      <a routerLink="/auth/sign-in">Sign-in</a>
+    </nav>
+  </form>
+</div>

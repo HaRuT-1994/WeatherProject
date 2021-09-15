@@ -1,8 +1,8 @@
 .weather-box {
-  background-color: aquamarine;
+  background-color: #e0dbce;
   width: 59vw;
-  border: 1px solid gray;
-  padding: 5px;
+  border-radius: 25px;
+  padding-left: 5px;
   margin: auto;
 
   h1{
@@ -18,9 +18,15 @@
 .map-chart {
   display: flex;
   width: 100%;
+  margin-top: 15px;
 }
 
 .info-block {
   display: flex;
   align-items: center;
+}
+
+.weather-style {
+  background: linear-gradient(180deg, rgb(230, 176, 143) 15%, rgba(199,195,109,1) 56%, rgb(121, 186, 199) 100%);
+  padding: 10px 10px 10px 0;
 }

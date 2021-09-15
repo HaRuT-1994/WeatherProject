@@ -1,0 +1,32 @@
+@import '../../assets/variable';
+
+.container {
+  height: calc(100% - #{$header-height});
+  width: 100%;
+  background: linear-gradient(180deg, #5892db 6%, #8e9fa7 56%, #c8631b 100%);
+
+  .bg-box {
+    background-image: url("/assets/images/main_background.jpg");
+    background-size: 100% 100%;
+    padding-top: 50px;
+    box-sizing: content-box;
+    height: 90%;
+    width: 75%;
+    margin: auto;
+
+    .welcome {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 110px;
+      width: 300px;
+      margin: auto;
+      border-radius: 50%;
+      font-size: 20px;
+      color: #c8631b;
+      background-color: #e7eafc;
+    }
+  }
+}
+
+

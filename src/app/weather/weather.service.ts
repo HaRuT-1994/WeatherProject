@@ -8,7 +8,7 @@ import { CurrentWeather } from './shared/CurrentWeather.interface';
 import { WeekWeather } from './shared/WeekWeather.interface';
 import { coordsAction } from './store/actions/coords.actions';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class WeatherService {
   city$: Observable<any>;
   coords: number[] = [];

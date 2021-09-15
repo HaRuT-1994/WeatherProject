@@ -5,9 +5,8 @@
 export const environment = {
   production: false,
   openWeatherAPIKey: '2c4301116121518fc276a5d0e755fa34'
-
 };
-//2c4301116121518fc276a5d0e755fa34
+//weathweAPIKeys 2c4301116121518fc276a5d0e755fa34
 /*f2ef9ed173937952635512e2f5da9b52
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

@@ -1,0 +1,10 @@
+<mat-toolbar color="accent" class="navbar">
+  <div>
+    <img src='../../../assets/images/wineass-ios7-redesign-weather.ico'>
+  </div>
+  <div>
+    <span *ngIf="!isAuth" routerLink="/auth" routerLinkActive="active">Log In</span>
+    <span *ngIf="isAuth" routerLink="/auth" routerLinkActive="active" (click)="onLogout()">Log Out</span>
+    <span *ngIf="isAuth" routerLink="/weather" routerLinkActive="active">Weather</span>
+  </div>
+</mat-toolbar>
