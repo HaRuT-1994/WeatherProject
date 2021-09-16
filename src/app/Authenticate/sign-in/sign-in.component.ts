@@ -40,13 +40,15 @@ export class SignInComponent implements OnInit {
       const password = this.signinForm.value.password;
       this.isLoading = true;
       this.authService.signIn(email, password)
-      .subscribe(() => {
-        this.isLoading = false;
-        this.router.navigate(['/weather']);
-      }, error => {
-        console.log(error);
-        this.isLoading = false;
-      }
+      .subscribe(
+        () => {
+          this.isLoading = false;
+          this.router.navigate(['/weather']);
+        },
+        error => {
+          console.log(error);
+          this.isLoading = false;
+        }
       )
     }
 
@@ -58,7 +60,6 @@ export class SignInComponent implements OnInit {
       return 'You must enter an email adrress';
     }
 
-    // this.error = null;
     return this.signinForm.controls['email'].hasError('email') ? 'Not a valid email' : '';
   }
 

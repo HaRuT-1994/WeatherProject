@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -15,15 +15,19 @@ export class WeatherService {
 
   constructor(
     private store: Store<{city: string}>,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private zone: NgZone
+    ) {
       this.getGeolocation();
-      setTimeout(()=>{
-        this.reverseGeocoding(this.coords).subscribe(
-          data => {
-            this.store.dispatch(cityAction({request: data[0].name}));
-            this.store.dispatch(coordsAction({request: this.coords}));
-          })
-      }, 0);
+      this.zone.runOutsideAngular(()=>{
+         setTimeout(()=>{
+          this.reverseGeocoding(this.coords).subscribe(
+            data => {
+              this.store.dispatch(cityAction({request: data[0].name}));
+              this.store.dispatch(coordsAction({request: this.coords}));
+            })
+         }, 0);
+      })
   }
 
   getGeolocation() {

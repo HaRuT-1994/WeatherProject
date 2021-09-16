@@ -1,8 +1,15 @@
+
+.weather-style {
+  background: linear-gradient(180deg, rgb(230, 176, 143) 15%, rgba(199,195,109,1) 56%, rgb(121, 186, 199) 100%);
+  padding: 10px 10px 10px 0;
+  font-size: calc(12px + 0.3vw);
+}
+
 .weather-box {
   background-color: #e0dbce;
   width: 59vw;
   border-radius: 25px;
-  padding-left: 5px;
+  padding-left: 8px;
   margin: auto;
 
   h1{
@@ -19,18 +26,32 @@
   display: flex;
   width: 100%;
   margin-top: 15px;
+  flex-wrap: wrap;
+  justify-content:center;
+
+  div {
+    min-width: 400px;
+    width: 50%;
+  }
 }
 
 .info-block {
   display: flex;
   align-items: center;
-}
+  flex-wrap: wrap;
 
-.weather-style {
-  background: linear-gradient(180deg, rgb(230, 176, 143) 15%, rgba(199,195,109,1) 56%, rgb(121, 186, 199) 100%);
-  padding: 10px 10px 10px 0;
+  div {
+    display: flex;
+    align-items: center;
+    min-width: 100px;
+    padding: 5px;
+  }
 }
 
 img {
   width: 45px;
+}
+
+.humidity {
+  width:25px;
 }

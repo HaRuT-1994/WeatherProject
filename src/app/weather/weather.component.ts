@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { tap, filter } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { coordsAction } from './store/actions/coords.actions';
@@ -20,21 +20,24 @@ export class WeatherComponent implements OnInit {
   coords: number[] = [];
 
   constructor(private store: Store<WeatherState>,
-    private weatherService: WeatherService) {  }
+    private weatherService: WeatherService,
+    private zone: NgZone
+    ) {  }
 
   ngOnInit() {
     this.info$ =
     this.store.pipe(select(citySelector),
     filter(state => state !== null),
     tap(data => {
-      console.log(data);
       this.coords = Object.values(data['coord']).reverse()})
     );
   }
 
   onChangeLocation() {
     this.store.dispatch(cityAction({request: this.cityName}));
-    setTimeout(() => {this.store.dispatch(coordsAction({request: this.coords}));}, 400)
+    this.zone.runOutsideAngular(() => {
+      setTimeout(() => {this.store.dispatch(coordsAction({request: this.coords}));}, 400)
+    })
   }
 
   onMaplatlng(event) {
@@ -43,5 +46,9 @@ export class WeatherComponent implements OnInit {
     this.weatherService.reverseGeocoding(event).subscribe(
       data => this.store.dispatch(cityAction({request: data[0].name}))
     )
+  }
+
+  celConvertFah(celsius) {
+    return (celsius * (9/5)) + 32;
   }
 }

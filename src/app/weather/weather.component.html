@@ -6,10 +6,18 @@
       <input id="city" type="text" placeholder="cityName" [(ngModel)]="cityName" (keyup.enter)="onChangeLocation()">
       <div class="info-block">
         <div>
-        City: {{localData['name']}} | {{localData['main']['temp'] | round}}<sup>0</sup>C, {{localData['weather'][0]['description']}}</div>
+          {{localData['name']}}: {{localData['main']['temp'] | round}}&#8451;/{{celConvertFah(localData['main']['temp']) | round}}&#8457;,
+        </div>
         <div>
-        <img src="http://openweathermap.org/img/wn/{{localData['weather'][0]['icon']}}.png"/></div>
-        Wind:<img src="assets/images/wind-icon.png"/>{{localData['wind']['speed']}}m/s, Humidity:{{localData['main']['humidity']}}%
+           {{localData['weather'][0]['description']}}:
+         <img src="http://openweathermap.org/img/wn/{{localData['weather'][0]['icon']}}.png"/>
+        </div>
+        <div>
+         Wind: <img src="assets/images/wind-icon.png"/>{{localData['wind']['speed']}}m/s,
+        </div>
+        <div>
+         Humidity: <img class="humidity" src="assets/images/humidity.png"/> {{localData['main']['humidity']}}%
+        </div>
       </div>
     </div>
   </div>

@@ -93,12 +93,11 @@ export class SignUpComponent implements OnInit {
   }
 
   confirmPasswordErrorMessage() {
-    console.log(this.signupForm.errors?.notSame)
 
     if(this.signupForm.errors?.notSame) {
       return  'Password does not match the confirm password';
     }
-    // hasError('notSame')
+    
     return '';
   }
 }
