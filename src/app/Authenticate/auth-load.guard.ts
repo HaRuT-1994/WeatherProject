@@ -16,7 +16,7 @@ import { AuthService } from "./auth.service";
             return !!user;
           }
 
-          return this.router.createUrlTree(['/sign-in']);
+          return this.router.createUrlTree(['/auth']);
         })
       );
     }

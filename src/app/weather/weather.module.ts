@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -36,6 +36,7 @@ import { WeatherService } from './weather.service';
     EffectsModule.forFeature([CityEffects, CoordsEffects]),
   ],
   exports: [WeatherComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [WeatherService]
 })
 export class WeatherModule { }

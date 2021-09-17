@@ -7,6 +7,7 @@ span {
   padding-right: 2rem;
   outline: none;
   font-size: calc(17px + 0.5vw);
+  color: #d6d5b2;
 
   &:hover {
     color: rgb(148, 137, 57);
@@ -21,7 +22,7 @@ img {
 }
 
 .active{
-  color: #650606;
+  color: #650606 !important;
 }
 
 .mat-toolbar.mat-accent  {

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthComponent } from './auth.component';
@@ -8,32 +8,22 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
-import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
-
-export const firebaseConfig = {
-  apiKey: '',
-  authDomain: '',
-  databaseURL: '',
-  storageBucket: '',
-  messagingSenderId: ''
-}
+import { MaterialModule } from '../material.module';
 
 @NgModule({
   declarations: [
     SignInComponent,
     SignUpComponent,
-    AuthComponent,
-    LoadingSpinnerComponent
+    AuthComponent
   ],
   imports: [
+    MaterialModule,
     CommonModule,
     FormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
     ReactiveFormsModule,
     RouterModule
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
 
   ],

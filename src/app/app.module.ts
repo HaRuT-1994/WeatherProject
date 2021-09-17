@@ -7,17 +7,16 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment'; // Angular CLI environment
 import { MaterialModule } from './material.module';
 import { AuthModule } from './Authenticate/auth.module';
-
-import { AppComponent } from './app.component';
+import { SharedModule } from './shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { HeaderComponent } from './shared/header/header.component';
+
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HeaderComponent
+    AppComponent
   ],
   imports: [
     AuthModule,
@@ -27,6 +26,7 @@ import { HeaderComponent } from './shared/header/header.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    SharedModule,
     MaterialModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),

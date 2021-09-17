@@ -3,8 +3,8 @@
     <img src='../../../assets/images/wineass-ios7-redesign-weather.ico'>
   </div>
   <div>
-    <span *ngIf="!isAuth" routerLink="/auth" routerLinkActive="active">Sign In</span>
+    <span *ngIf="!isAuth" routerLink="/auth" routerLinkActive="active" [ngClass]=" url ? '' : 'active' ">Sign In</span>
     <span *ngIf="isAuth" routerLink="/auth" routerLinkActive="active" (click)="onLogout()">Sign Out</span>
-    <span *ngIf="isAuth" routerLink="/weather" routerLinkActive="active">Weather</span>
+    <span *ngIf="isAuth" routerLink="/weather" routerLinkActive="active" [ngClass]=" url ? 'active' : '' ">Weather</span>
   </div>
 </mat-toolbar>
